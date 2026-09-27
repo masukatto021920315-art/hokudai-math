@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>北大数学ランダム演習</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;margin:0;background:#f5f5f7;color:#222}
+main{max-width:760px;margin:auto;padding:24px 18px 40px}
+.screen{display:none;min-height:calc(100vh - 64px)}
+.screen.active{display:block}
+.card{background:white;border-radius:20px;padding:22px;box-shadow:0 2px 14px #0001}
+h1{font-size:30px;margin:12px 0 8px}
+h2{font-size:23px;margin:16px 0}
+p{line-height:1.7}
+button{width:100%;border:0;border-radius:14px;padding:15px 16px;margin-top:12px;background:#222;color:white;font-size:17px;font-weight:600}
+button.secondary{background:#e9e9ee;color:#222}
+button.answer-btn{background:#3157d5}
+.meta{margin-bottom:12px}
+.tag{display:inline-block;background:#eee;padding:6px 10px;border-radius:999px;margin:3px;font-size:13px}
+pre{white-space:pre-wrap;font-family:inherit;line-height:1.9;font-size:16px}
+.answer{display:none;background:#f0f0f3;padding:17px;border-radius:14px;margin-top:16px}
+.small{color:#666;font-size:14px}
+.back{background:transparent;color:#555;padding:8px 0;text-align:left;width:auto;margin:0 0 8px}
+</style>
+</head>
+<body>
+<main>
+
+<section id="home" class="screen active">
+  <div class="card">
+    <div class="small">北大理系数学・オリジナル演習</div>
+    <h1>北大数学<br>ランダム演習</h1>
+    <p>2単元融合のオリジナル問題から、ランダムに1題出題します。</p>
+    <button onclick="startRandom()">ランダムに問題を出す</button>
+  </div>
+</section>
+
+<section id="problem" class="screen">
+  <button class="back" onclick="goHome()">‹ ホームに戻る</button>
+  <div class="card">
+    <div id="meta" class="meta"></div>
+    <h2 id="title"></h2>
+    <pre id="q"></pre>
+    <button class="answer-btn" onclick="showAnswer()">回答を表示</button>
+    <div id="answer" class="answer">
+      <b>解答・解説</b>
+      <pre id="a"></pre>
+    </div>
+    <button class="secondary" onclick="startRandom()">別の問題を出す</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+const problems = [{"id": 1, "title": "点の移動と数列", "units": ["ベクトル", "数列"], "difficulty": "北大標準", "time": 22, "question": "平面上に O=(0,0), A=(2,0), B=(0,2) をとる。点 P_n を\nP_1=A とし、n=1,2,3,... に対して\n→OP_{n+1}=1/2→OP_n+1/2→OB\nで定める。\n\n(1) P_n の座標を求めよ。\n(2) P_n が x軸から最も遠い点となる n を求めよ。\n(3) 線分 P_nP_{n+1} の長さを d_n とするとき、Σ_{n=1}^∞ d_n を求めよ。", "answer": "(1) P_n=(2^{1-n}, 2-2^{1-n}).\n(2) y座標は単調増加して2に近づくので、有限のnでは最大値をとらない。\n(3) →P_nP_{n+1}=1/2(→OB-→OP_n) より d_n=√2·2^{-n}. よって Σd_n=√2."}, {"id": 2, "title": "面積と数列", "units": ["積分", "数列"], "difficulty": "北大標準", "time": 24, "question": "a>0 とし、曲線 y=x^2 と直線 y=ax で囲まれる部分の面積を S(a) とする。\n\n(1) S(a) を a の式で表せ。\n(2) a_n を a_1=1, a_{n+1}=3a_n/2 と定めるとき、S(a_n) を求めよ。\n(3) Σ_{n=1}^∞ 1/S(a_n) は収束するか判定せよ。", "answer": "(1) 交点は0,a。S(a)=∫_0^a(ax-x^2)dx=a^3/6。\n(2) a_n=(3/2)^{n-1} より S(a_n)=1/6(3/2)^{3n-3}。\n(3) 1/S(a_n)=6(8/27)^{n-1} なので等比級数として収束し、和は 6/(1-8/27)=162/19。"}, {"id": 3, "title": "条件付き確率と図形", "units": ["確率", "ベクトル"], "difficulty": "北大標準", "time": 25, "question": "正方形 ABCD の頂点から異なる2点を一様に選び、選んだ点を P,Q とする。\n→AP と →AQ の内積を X とする。\n\n(1) X が0となる確率を求めよ。\n(2) X<0 となる確率を求めよ。\n(3) X の期待値を求めよ。", "answer": "頂点を A=(0,0), B=(1,0), C=(1,1), D=(0,1) とする。\n異なる順序つき2点は12通り。Aを含む場合はベクトルがAB,AC,AD。\n(1) 内積0は ABとAD の組だけなので2通り/12=1/6。\n(2) 内積が負になる組はないので0。\n(3) 各組を数えると、和は8。したがって E(X)=8/12=2/3。"}, {"id": 4, "title": "複素数と軌跡", "units": ["複素数平面", "図形と方程式"], "difficulty": "北大標準", "time": 23, "question": "複素数 z が |z-1|=|z-i| を満たすとする。\n\n(1) z=x+yi とおいて x,y の満たす方程式を求めよ。\n(2) さらに |z|=√2 を満たす点 z の個数を求めよ。\n(3) (2)の点をすべて求めよ。", "answer": "(1) |z-1|^2=|z-i|^2 より (x-1)^2+y^2=x^2+(y-1)^2、したがって x=y。\n(2) x=y と x^2+y^2=2 より 2x^2=2。2点。\n(3) z=1+i, -1-i。"}, {"id": 5, "title": "確率と整数", "units": ["確率", "整数"], "difficulty": "北大やや難", "time": 25, "question": "1,2,3,4,5,6 の6枚のカードから異なる2枚を順に取り出し、2桁の整数 N を作る。\n\n(1) N が3の倍数となる確率を求めよ。\n(2) N が6の倍数となる確率を求めよ。\n(3) N が6の倍数であるとき、Nが4の倍数でもある確率を求めよ。", "answer": "全36通り。\n(1) 各桁の和が3の倍数となる組を数える。和が3,6,9の組を順序付きで数えると12通り、確率1/3。\n(2) 2の倍数かつ3の倍数。1の位が2,4,6で、各場合について3の倍数条件を数えると6通り、確率1/6。\n(3) 6の倍数かつ4の倍数は12,24,36,48,? のうち使用可能な数字だけを調べる必要がある。この条件では24,36のみなので2/6=1/3。"}, {"id": 6, "title": "微分と三角関数", "units": ["微分", "三角関数"], "difficulty": "北大標準", "time": 20, "question": "0≤x≤π とし、f(x)=sin x+x cos x とする。\n\n(1) f'(x) を求めよ。\n(2) f(x) の増減を調べ、最大値・最小値を求めよ。\n(3) 方程式 sin x+x cos x=0 の解の個数を求めよ。", "answer": "(1) f'(x)=2cos x-x sin x。\n(2) この導関数の符号を調べることで増減を決定する。\n(3) (2)の増減表と端点値を用いて解の個数を判定する。"}, {"id": 7, "title": "漸化式と極限", "units": ["数列", "極限"], "difficulty": "北大標準", "time": 22, "question": "a_1=1, a_{n+1}=√(2+a_n) とする。\n\n(1) 0<a_n<2 を示せ。\n(2) a_n が単調増加であることを示せ。\n(3) lim_{n→∞}a_n を求めよ。", "answer": "(1) 帰納法で示す。a_n<2ならa_{n+1}=√(2+a_n)<2。\n(2) a_{n+1}>a_n は両辺非負なので2+a_n>a_n^2、すなわち (a_n-2)(a_n+1)<0 を用いる。\n(3) 極限をLとすると L=√(2+L)。L^2-L-2=0、0<L<2よりL=2。"}, {"id": 8, "title": "ベクトルと面積", "units": ["ベクトル", "図形"], "difficulty": "北大標準", "time": 24, "question": "A=(1,0), B=(0,1), C=(3,2) とする。点 P は線分 AB 上を動く。\n\n(1) Pを OP=(1-t)OA+tOB (0≤t≤1) と表せ。\n(2) △PC の面積を t の式で表せ。\n(3) △PC の面積が最小となる t と、その最小値を求めよ。", "answer": "(1) P=(1-t,t)。\n(2) 面積=1/2|det(P-A,C-A)|=|2t-1|/2。\n(3) t=1/2 のとき最小で、最小値0。"}, {"id": 9, "title": "積分と指数関数", "units": ["積分", "指数・対数"], "difficulty": "北大やや難", "time": 23, "question": "a>0 とし、I(a)=∫_0^1 x e^{ax} dx とする。\n\n(1) I(a) を求めよ。\n(2) I(a) の a→0 の極限を求めよ。\n(3) I(a)>1/2 を示すための方法を述べよ。", "answer": "(1) 部分積分により I(a)=e^a/a+(1-e^a)/a^2。\n(2) 展開またはロピタル等で lim I(a)=1/2。\n(3) e^{ax}>1 (a>0, 0<x≤1) より xe^{ax}>x。よって I(a)>∫_0^1x dx=1/2。"}, {"id": 10, "title": "確率と数列", "units": ["確率", "数列"], "difficulty": "北大やや難", "time": 25, "question": "箱に赤玉1個、白玉2個が入っている。1個取り出して色を確認し、元に戻した後、確認した色と同じ色の玉を1個追加する操作を繰り返す。\nn回目の操作直前に赤玉が1個である確率を p_n とする。\n\n(1) p_1 を求めよ。\n(2) p_{n+1} を p_n を用いて表せ。\n(3) p_n の極限を求めよ。", "answer": "(1) p_1=1/3。\n(2) 赤1白2の状態なら赤を引く確率1/3で赤2白2、白を引く確率2/3で赤1白3。状態を増やすと単純な1変数漸化式にはならないため、この定義だけでは(2)はp_nのみでは閉じない。したがって問題文のままでは設問(2)が不適切。"}];
+let current;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function startRandom() {
+  current = problems[Math.floor(Math.random() * problems.length)];
+  document.getElementById('title').textContent = 'No.' + current.id + ' ' + current.title;
+  document.getElementById('meta').innerHTML =
+    current.units.map(x => `<span class="tag">${x}</span>`).join('') +
+    `<span class="tag">${current.difficulty}</span>` +
+    `<span class="tag">想定 ${current.time}分</span>`;
+  document.getElementById('q').textContent = current.question;
+  document.getElementById('a').textContent = current.answer;
+  document.getElementById('answer').style.display = 'none';
+  showScreen('problem');
+}
+
+function showAnswer() {
+  document.getElementById('answer').style.display = 'block';
+}
+
+function goHome() {
+  showScreen('home');
+}
+</script>
+</body>
+</html>
