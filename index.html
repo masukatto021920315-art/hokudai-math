@@ -3,87 +3,350 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>北大数学ランダム演習</title>
+<meta name="theme-color" content="#6b7f73">
+<title>北大数学</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <style>
+:root{
+  --accent:#6b7f73;
+  --accent-dark:#52665b;
+  --accent-soft:#e9efeb;
+  --bg:#f5f6f4;
+  --card:#ffffff;
+  --text:#202321;
+  --muted:#707672;
+  --line:#e2e5e2;
+  --danger:#b75d5d;
+  --danger-soft:#f8eaea;
+  --good:#52745e;
+  --good-soft:#eaf2ec;
+}
 *{box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;margin:0;background:#f5f5f7;color:#222}
-main{max-width:760px;margin:auto;padding:24px 18px 40px}
-.screen{display:none;min-height:calc(100vh - 64px)}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text)}
+body{
+  font-family:"Ryumin Pro","リュウミン","Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho",serif;
+  -webkit-font-smoothing:antialiased;
+}
+button{
+  font-family:"FutoGoB101 Pro","太ゴ","Hiragino Kaku Gothic ProN","Hiragino Kaku Gothic Pro","Yu Gothic",sans-serif;
+}
+h1,h2,h3,.nav-label,.tag,.meta,.btn,.small-title,.section-title,.status{
+  font-family:"FutoGoB101 Pro","太ゴ","Hiragino Kaku Gothic ProN","Hiragino Kaku Gothic Pro","Yu Gothic",sans-serif;
+}
+#app{min-height:100vh}
+main{max-width:780px;margin:auto;padding:22px 17px 112px}
+.screen{display:none;min-height:calc(100vh - 140px)}
 .screen.active{display:block}
-.card{background:white;border-radius:20px;padding:22px;box-shadow:0 2px 14px #0001}
-h1{font-size:30px;margin:12px 0 8px}
-h2{font-size:23px;margin:16px 0}
-p{line-height:1.7}
-button{width:100%;border:0;border-radius:14px;padding:15px 16px;margin-top:12px;background:#222;color:white;font-size:17px;font-weight:600}
-button.secondary{background:#e9e9ee;color:#222}
-button.answer-btn{background:#3157d5}
-.meta{margin-bottom:12px}
-.tag{display:inline-block;background:#eee;padding:6px 10px;border-radius:999px;margin:3px;font-size:13px}
-pre{white-space:pre-wrap;font-family:inherit;line-height:1.9;font-size:16px}
-.answer{display:none;background:#f0f0f3;padding:17px;border-radius:14px;margin-top:16px}
-.small{color:#666;font-size:14px}
-.back{background:transparent;color:#555;padding:8px 0;text-align:left;width:auto;margin:0 0 8px}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:24px 21px;
+  box-shadow:0 5px 22px rgba(40,50,44,.06);
+}
+.hero{
+  padding:30px 23px;
+  border-top:5px solid var(--accent);
+}
+h1{font-size:31px;line-height:1.28;margin:8px 0 12px;letter-spacing:.01em}
+h2{font-size:24px;line-height:1.45;margin:10px 0 18px}
+h3{font-size:19px;margin:0 0 10px}
+p{font-size:16px;line-height:1.95;margin:10px 0}
+.small{color:var(--muted);font-size:13px;line-height:1.7}
+.small-title{font-size:13px;color:var(--accent-dark);letter-spacing:.06em}
+.meta{margin:0 0 12px}
+.tag{
+ display:inline-block;background:var(--accent-soft);color:var(--accent-dark);
+ padding:6px 10px;border-radius:999px;margin:3px 4px 3px 0;font-size:12px
+}
+.btn{
+ width:100%;border:0;border-radius:15px;padding:15px 16px;margin-top:12px;
+ font-size:16px;font-weight:700;cursor:pointer;transition:.15s;
+}
+.btn.primary{background:var(--accent);color:white}
+.btn.primary:active{background:var(--accent-dark)}
+.btn.secondary{background:#eef0ee;color:var(--text)}
+.btn.good{background:var(--good-soft);color:var(--good);border:1px solid #d7e5da}
+.btn.bad{background:var(--danger-soft);color:var(--danger);border:1px solid #eed5d5}
+.btn.review{background:#eef1f6;color:#4e6077;border:1px solid #dbe1ea}
+.btn.small-btn{padding:12px 10px;font-size:14px}
+.topbar{margin-bottom:12px}
+.back{
+ border:0;background:transparent;color:var(--muted);padding:5px 0;margin:0;
+ font-family:inherit;font-size:14px;cursor:pointer
+}
+.question-box{margin-top:14px}
+.math-content{font-size:16px;line-height:2.05}
+.math-content mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+.answer-screen .question-preview{
+ background:#f8f9f7;border:1px solid var(--line);border-radius:17px;padding:17px;margin-bottom:17px
+}
+.answer-screen .question-preview .small-title{margin-bottom:8px}
+.solution{
+ font-size:16px;line-height:2.05;
+}
+.solution h3{
+ margin-top:23px;padding-left:11px;border-left:4px solid var(--accent)
+}
+.solution mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+.action-label{
+ text-align:center;color:var(--muted);font-size:13px;margin:5px 0 0
+}
+.rating-row{margin-top:16px}
+.rating-row .btn:first-child{margin-top:0}
+.review-list{display:flex;flex-direction:column;gap:10px;margin-top:15px}
+.review-item{
+ width:100%;text-align:left;background:white;border:1px solid var(--line);
+ border-radius:17px;padding:16px;cursor:pointer;color:var(--text);
+ font-family:inherit
+}
+.review-item:active{background:#f1f4f1}
+.review-no{font-family:"FutoGoB101 Pro","太ゴ","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:700;color:var(--accent-dark);font-size:13px}
+.review-title{font-size:17px;font-weight:700;margin:5px 0 7px}
+.review-meta{font-size:12px;color:var(--muted);margin-bottom:7px}
+.review-summary{font-size:14px;line-height:1.65}
+.empty{
+ text-align:center;padding:48px 20px;color:var(--muted);background:white;border:1px dashed #ccd1cc;border-radius:20px
+}
+.status{
+ padding:9px 11px;border-radius:12px;font-size:13px;margin-top:10px;background:var(--accent-soft);color:var(--accent-dark)
+}
+.hint{
+ display:none;background:#f4f7f4;border-left:4px solid var(--accent);
+ border-radius:12px;padding:15px 16px;margin-top:14px;font-size:15px;line-height:1.9
+}
+.hint.show{display:block}
+.bottom-nav{
+ position:fixed;z-index:20;left:0;right:0;bottom:0;
+ padding:8px 12px calc(8px + env(safe-area-inset-bottom));
+ background:rgba(255,255,255,.94);backdrop-filter:blur(16px);
+ border-top:1px solid var(--line);
+ display:flex;justify-content:center;gap:8px
+}
+.nav-btn{
+ width:min(46vw,230px);border:0;background:transparent;color:#757b77;
+ border-radius:18px;padding:9px 8px 8px;cursor:pointer
+}
+.nav-btn.active{background:var(--accent-soft);color:var(--accent-dark)}
+.nav-icon{display:block;font-size:22px;line-height:1.15;margin-bottom:2px}
+.nav-label{display:block;font-size:12px;font-weight:700}
+.toast{
+ position:fixed;left:50%;bottom:88px;transform:translateX(-50%);
+ background:#222;color:white;padding:10px 15px;border-radius:12px;font-size:13px;
+ opacity:0;pointer-events:none;transition:.2s;z-index:50
+}
+.toast.show{opacity:1}
+@media(min-width:700px){
+ main{padding-left:24px;padding-right:24px}
+ .bottom-nav{left:50%;right:auto;transform:translateX(-50%);width:520px;border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0}
+}
 </style>
 </head>
 <body>
+<div id="app">
 <main>
 
 <section id="home" class="screen active">
-  <div class="card">
-    <div class="small">北大理系数学・オリジナル演習</div>
-    <h1>北大数学<br>ランダム演習</h1>
-    <p>2単元融合のオリジナル問題から、ランダムに1題出題します。</p>
-    <button onclick="startRandom()">ランダムに問題を出す</button>
+  <div class="card hero">
+    <div class="small-title">北海道大学・理系数学</div>
+    <h1>北大数学<br>演習</h1>
+    <p>北大らしい「2単元融合」を意識したオリジナル問題を、1題ずつじっくり解こう。</p>
+    <button class="btn primary" onclick="startRandom()">ランダムに問題を出す</button>
+    <div class="status" id="homeStatus"></div>
   </div>
 </section>
 
 <section id="problem" class="screen">
-  <button class="back" onclick="goHome()">‹ ホームに戻る</button>
+  <div class="topbar"><button class="back" onclick="goHome()">‹ ホーム</button></div>
   <div class="card">
-    <div id="meta" class="meta"></div>
-    <h2 id="title"></h2>
-    <pre id="q"></pre>
-    <button class="answer-btn" onclick="showAnswer()">回答を表示</button>
-    <div id="answer" class="answer">
-      <b>解答・解説</b>
-      <pre id="a"></pre>
+    <div id="problemMeta" class="meta"></div>
+    <h2 id="problemTitle"></h2>
+    <div id="problemQuestion" class="math-content question-box"></div>
+    <button class="btn secondary" onclick="toggleHint()">ヒントを見る</button>
+    <div id="hintBox" class="hint"></div>
+    <button class="btn primary" onclick="showAnswer()">解答・解説を見る</button>
+  </div>
+</section>
+
+<section id="answer" class="screen answer-screen">
+  <div class="topbar"><button class="back" onclick="backToProblem()">‹ 問題に戻る</button></div>
+  <div class="card">
+    <div class="question-preview">
+      <div class="small-title">問題</div>
+      <div id="answerQuestion" class="math-content"></div>
     </div>
-    <button class="secondary" onclick="startRandom()">別の問題を出す</button>
+
+    <div class="small-title">解答・解説</div>
+    <div id="solution" class="solution"></div>
+
+    <div class="rating-row">
+      <div class="small-title">今回の結果</div>
+      <button class="btn good" onclick="markCorrect()">正解</button>
+      <button class="btn bad" onclick="markWrong()">不正解</button>
+      <button class="btn review" onclick="addReview()">復習</button>
+      <div id="resultStatus"></div>
+    </div>
+
+    <button class="btn secondary" onclick="startRandom()">別の問題を出す</button>
+  </div>
+</section>
+
+<section id="review" class="screen">
+  <div class="card">
+    <div class="small-title">復習</div>
+    <h2>復習する問題</h2>
+    <p class="small">不正解にした問題、または「復習」を押した問題がここに残ります。</p>
+    <div id="reviewList" class="review-list"></div>
   </div>
 </section>
 
 </main>
 
+<nav class="bottom-nav" aria-label="メインナビゲーション">
+  <button id="navHome" class="nav-btn active" onclick="goHome()">
+    <span class="nav-icon">⌂</span><span class="nav-label">ホーム</span>
+  </button>
+  <button id="navReview" class="nav-btn" onclick="showReview()">
+    <span class="nav-icon">▮</span><span class="nav-label">復習</span>
+  </button>
+</nav>
+
+<div id="toast" class="toast"></div>
+</div>
+
 <script>
-const problems = [{"id": 1, "title": "点の移動と数列", "units": ["ベクトル", "数列"], "difficulty": "北大標準", "time": 22, "question": "平面上に O=(0,0), A=(2,0), B=(0,2) をとる。点 P_n を\nP_1=A とし、n=1,2,3,... に対して\n→OP_{n+1}=1/2→OP_n+1/2→OB\nで定める。\n\n(1) P_n の座標を求めよ。\n(2) P_n が x軸から最も遠い点となる n を求めよ。\n(3) 線分 P_nP_{n+1} の長さを d_n とするとき、Σ_{n=1}^∞ d_n を求めよ。", "answer": "(1) P_n=(2^{1-n}, 2-2^{1-n}).\n(2) y座標は単調増加して2に近づくので、有限のnでは最大値をとらない。\n(3) →P_nP_{n+1}=1/2(→OB-→OP_n) より d_n=√2·2^{-n}. よって Σd_n=√2."}, {"id": 2, "title": "面積と数列", "units": ["積分", "数列"], "difficulty": "北大標準", "time": 24, "question": "a>0 とし、曲線 y=x^2 と直線 y=ax で囲まれる部分の面積を S(a) とする。\n\n(1) S(a) を a の式で表せ。\n(2) a_n を a_1=1, a_{n+1}=3a_n/2 と定めるとき、S(a_n) を求めよ。\n(3) Σ_{n=1}^∞ 1/S(a_n) は収束するか判定せよ。", "answer": "(1) 交点は0,a。S(a)=∫_0^a(ax-x^2)dx=a^3/6。\n(2) a_n=(3/2)^{n-1} より S(a_n)=1/6(3/2)^{3n-3}。\n(3) 1/S(a_n)=6(8/27)^{n-1} なので等比級数として収束し、和は 6/(1-8/27)=162/19。"}, {"id": 3, "title": "条件付き確率と図形", "units": ["確率", "ベクトル"], "difficulty": "北大標準", "time": 25, "question": "正方形 ABCD の頂点から異なる2点を一様に選び、選んだ点を P,Q とする。\n→AP と →AQ の内積を X とする。\n\n(1) X が0となる確率を求めよ。\n(2) X<0 となる確率を求めよ。\n(3) X の期待値を求めよ。", "answer": "頂点を A=(0,0), B=(1,0), C=(1,1), D=(0,1) とする。\n異なる順序つき2点は12通り。Aを含む場合はベクトルがAB,AC,AD。\n(1) 内積0は ABとAD の組だけなので2通り/12=1/6。\n(2) 内積が負になる組はないので0。\n(3) 各組を数えると、和は8。したがって E(X)=8/12=2/3。"}, {"id": 4, "title": "複素数と軌跡", "units": ["複素数平面", "図形と方程式"], "difficulty": "北大標準", "time": 23, "question": "複素数 z が |z-1|=|z-i| を満たすとする。\n\n(1) z=x+yi とおいて x,y の満たす方程式を求めよ。\n(2) さらに |z|=√2 を満たす点 z の個数を求めよ。\n(3) (2)の点をすべて求めよ。", "answer": "(1) |z-1|^2=|z-i|^2 より (x-1)^2+y^2=x^2+(y-1)^2、したがって x=y。\n(2) x=y と x^2+y^2=2 より 2x^2=2。2点。\n(3) z=1+i, -1-i。"}, {"id": 5, "title": "確率と整数", "units": ["確率", "整数"], "difficulty": "北大やや難", "time": 25, "question": "1,2,3,4,5,6 の6枚のカードから異なる2枚を順に取り出し、2桁の整数 N を作る。\n\n(1) N が3の倍数となる確率を求めよ。\n(2) N が6の倍数となる確率を求めよ。\n(3) N が6の倍数であるとき、Nが4の倍数でもある確率を求めよ。", "answer": "全36通り。\n(1) 各桁の和が3の倍数となる組を数える。和が3,6,9の組を順序付きで数えると12通り、確率1/3。\n(2) 2の倍数かつ3の倍数。1の位が2,4,6で、各場合について3の倍数条件を数えると6通り、確率1/6。\n(3) 6の倍数かつ4の倍数は12,24,36,48,? のうち使用可能な数字だけを調べる必要がある。この条件では24,36のみなので2/6=1/3。"}, {"id": 6, "title": "微分と三角関数", "units": ["微分", "三角関数"], "difficulty": "北大標準", "time": 20, "question": "0≤x≤π とし、f(x)=sin x+x cos x とする。\n\n(1) f'(x) を求めよ。\n(2) f(x) の増減を調べ、最大値・最小値を求めよ。\n(3) 方程式 sin x+x cos x=0 の解の個数を求めよ。", "answer": "(1) f'(x)=2cos x-x sin x。\n(2) この導関数の符号を調べることで増減を決定する。\n(3) (2)の増減表と端点値を用いて解の個数を判定する。"}, {"id": 7, "title": "漸化式と極限", "units": ["数列", "極限"], "difficulty": "北大標準", "time": 22, "question": "a_1=1, a_{n+1}=√(2+a_n) とする。\n\n(1) 0<a_n<2 を示せ。\n(2) a_n が単調増加であることを示せ。\n(3) lim_{n→∞}a_n を求めよ。", "answer": "(1) 帰納法で示す。a_n<2ならa_{n+1}=√(2+a_n)<2。\n(2) a_{n+1}>a_n は両辺非負なので2+a_n>a_n^2、すなわち (a_n-2)(a_n+1)<0 を用いる。\n(3) 極限をLとすると L=√(2+L)。L^2-L-2=0、0<L<2よりL=2。"}, {"id": 8, "title": "ベクトルと面積", "units": ["ベクトル", "図形"], "difficulty": "北大標準", "time": 24, "question": "A=(1,0), B=(0,1), C=(3,2) とする。点 P は線分 AB 上を動く。\n\n(1) Pを OP=(1-t)OA+tOB (0≤t≤1) と表せ。\n(2) △PC の面積を t の式で表せ。\n(3) △PC の面積が最小となる t と、その最小値を求めよ。", "answer": "(1) P=(1-t,t)。\n(2) 面積=1/2|det(P-A,C-A)|=|2t-1|/2。\n(3) t=1/2 のとき最小で、最小値0。"}, {"id": 9, "title": "積分と指数関数", "units": ["積分", "指数・対数"], "difficulty": "北大やや難", "time": 23, "question": "a>0 とし、I(a)=∫_0^1 x e^{ax} dx とする。\n\n(1) I(a) を求めよ。\n(2) I(a) の a→0 の極限を求めよ。\n(3) I(a)>1/2 を示すための方法を述べよ。", "answer": "(1) 部分積分により I(a)=e^a/a+(1-e^a)/a^2。\n(2) 展開またはロピタル等で lim I(a)=1/2。\n(3) e^{ax}>1 (a>0, 0<x≤1) より xe^{ax}>x。よって I(a)>∫_0^1x dx=1/2。"}, {"id": 10, "title": "確率と数列", "units": ["確率", "数列"], "difficulty": "北大やや難", "time": 25, "question": "箱に赤玉1個、白玉2個が入っている。1個取り出して色を確認し、元に戻した後、確認した色と同じ色の玉を1個追加する操作を繰り返す。\nn回目の操作直前に赤玉が1個である確率を p_n とする。\n\n(1) p_1 を求めよ。\n(2) p_{n+1} を p_n を用いて表せ。\n(3) p_n の極限を求めよ。", "answer": "(1) p_1=1/3。\n(2) 赤1白2の状態なら赤を引く確率1/3で赤2白2、白を引く確率2/3で赤1白3。状態を増やすと単純な1変数漸化式にはならないため、この定義だけでは(2)はp_nのみでは閉じない。したがって問題文のままでは設問(2)が不適切。"}];
-let current;
+const problems = [{"id": 1, "title": "点の移動と数列", "units": ["ベクトル", "数列"], "difficulty": "北大標準", "time": 22, "summary": "点を漸化式で動かし、座標と移動距離の無限和を求める問題。", "question": "\n平面上に \\(O=(0,0),\\ A=(2,0),\\ B=(0,2)\\) をとる。点 \\(P_n\\) を\n\\(P_1=A\\) とし、\\(n=1,2,3,\\ldots\\) に対して\n\\[\n\\overrightarrow{OP_{n+1}}\n=\\frac12\\overrightarrow{OP_n}\n+\\frac12\\overrightarrow{OB}\n\\]\nで定める。\n\n(1) \\(P_n\\) の座標を求めよ。\n\n(2) \\(P_n\\) の \\(x\\) 軸からの距離が最も大きくなることはあるか。あるならその \\(n\\) を求めよ。\n\n(3) 線分 \\(P_nP_{n+1}\\) の長さを \\(d_n\\) とするとき、\n\\[\n\\sum_{n=1}^{\\infty}d_n\n\\]\nを求めよ。\n", "hint": "(1) 座標を \\(P_n=(x_n,y_n)\\) とおき、\\(x_n,y_n\\) それぞれの漸化式を立てる。", "solution": "\n### (1) \\(P_n\\) の座標\n\n\\(P_n=(x_n,y_n)\\) とおくと、定義より\n\\[\n(x_{n+1},y_{n+1})\n=\\frac12(x_n,y_n)+\\frac12(0,2).\n\\]\nしたがって\n\\[\nx_{n+1}=\\frac12x_n,\\qquad\ny_{n+1}=\\frac12y_n+1.\n\\]\n\nまず \\(x_1=2\\) なので、\n\\[\nx_n=2\\left(\\frac12\\right)^{n-1}=2^{1-n}.\n\\]\n\n次に \\(y_1=0\\) である。\\(y_n\\) は\n\\[\ny_{n+1}-2=\\frac12(y_n-2)\n\\]\nと変形できるので、\n\\[\ny_n-2=(y_1-2)\\left(\\frac12\\right)^{n-1}\n=-2\\left(\\frac12\\right)^{n-1}.\n\\]\nよって\n\\[\ny_n=2-2^{1-n}.\n\\]\n\nしたがって\n\\[\n\\boxed{P_n=\\left(2^{1-n},\\,2-2^{1-n}\\right)}.\n\\]\n\n### (2) \\(x\\) 軸から最も遠い点\n\n\\(P_n\\) は \\(y>0\\) にあるので、\\(x\\) 軸からの距離は \\(y_n\\) そのもの。\n\n\\[\ny_n=2-2^{1-n}.\n\\]\n\n\\(n\\) が大きくなると \\(2^{1-n}\\) は小さくなるため、\\(y_n\\) は単調増加します。\n\nしかし、\n\\[\ny_n<2\n\\]\nであり、どの有限の \\(n\\) に対しても \\(y_n=2\\) にはなりません。\n\nしたがって、有限の \\(n\\) で「最も遠い」という点は存在しません。\n\n\\[\n\\boxed{\\text{最大値をとる }n\\text{ は存在しない}}\n\\]\n\n### (3) \\(\\sum d_n\\)\n\n\\[\n\\overrightarrow{P_nP_{n+1}}\n=P_{n+1}-P_n\n=\\left(-2^{-n},\\,2^{-n}\\right).\n\\]\n\nしたがって\n\\[\nd_n\n=\\sqrt{(-2^{-n})^2+(2^{-n})^2}\n=\\sqrt2\\,2^{-n}.\n\\]\n\nよって\n\\[\n\\sum_{n=1}^{\\infty}d_n\n=\\sqrt2\\sum_{n=1}^{\\infty}\\left(\\frac12\\right)^n.\n\\]\n\n等比級数の和より\n\\[\n\\sum_{n=1}^{\\infty}\\left(\\frac12\\right)^n=1.\n\\]\n\nしたがって\n\\[\n\\boxed{\\sum_{n=1}^{\\infty}d_n=\\sqrt2}.\n\\]\n"}, {"id": 2, "title": "面積と数列", "units": ["積分", "数列"], "difficulty": "北大標準", "time": 24, "summary": "放物線と直線で囲まれる面積を数列に組み込み、無限級数を考える問題。", "question": "\n\\(a>0\\) とし、曲線 \\(y=x^2\\) と直線 \\(y=ax\\) で囲まれる部分の面積を \\(S(a)\\) とする。\n\n(1) \\(S(a)\\) を \\(a\\) の式で表せ。\n\n(2) \\(a_1=1,\\quad a_{n+1}=\\frac32a_n\\) と定めるとき、\\(S(a_n)\\) を求めよ。\n\n(3)\n\\[\n\\sum_{n=1}^{\\infty}\\frac1{S(a_n)}\n\\]\nの収束・発散を判定し、収束するならその和を求めよ。\n", "hint": "(1) まず \\(x^2=ax\\) から2曲線の交点を求める。 (3) \\(S(a_n)\\) を等比数列の形に直す。", "solution": "\n### (1) \\(S(a)\\)\n\n交点は\n\\[\nx^2=ax\n\\]\nより\n\\[\nx(x-a)=0.\n\\]\nしたがって \\(x=0,a\\)。\n\n\\(0\\le x\\le a\\) では直線 \\(y=ax\\) が放物線 \\(y=x^2\\) より上にあるので、\n\\[\nS(a)=\\int_0^a(ax-x^2)\\,dx.\n\\]\n\n計算すると\n\\[\nS(a)\n=\\left[\\frac a2x^2-\\frac13x^3\\right]_0^a\n=\\frac{a^3}{2}-\\frac{a^3}{3}\n=\\boxed{\\frac{a^3}{6}}.\n\\]\n\n### (2) \\(S(a_n)\\)\n\n\\[\na_{n+1}=\\frac32a_n,\\qquad a_1=1\n\\]\nだから\n\\[\na_n=\\left(\\frac32\\right)^{n-1}.\n\\]\n\nしたがって\n\\[\nS(a_n)\n=\\frac16\\left(\\frac32\\right)^{3n-3}.\n\\]\n\nつまり\n\\[\n\\boxed{S(a_n)=\\frac16\\left(\\frac{27}{8}\\right)^{n-1}}.\n\\]\n\n### (3) 無限級数\n\n逆数をとると\n\\[\n\\frac1{S(a_n)}\n=6\\left(\\frac8{27}\\right)^{n-1}.\n\\]\n\nこれは初項 \\(6\\)、公比 \\(\\frac8{27}\\) の等比級数。\n\n\\[\n\\left|\\frac8{27}\\right|<1\n\\]\nなので収束する。\n\nその和は\n\\[\n\\frac{6}{1-\\frac8{27}}\n=\\frac{6}{\\frac{19}{27}}\n=\\boxed{\\frac{162}{19}}.\n\\]\n"}, {"id": 3, "title": "条件付き確率と図形", "units": ["確率", "ベクトル"], "difficulty": "北大標準", "time": 25, "summary": "正方形の頂点を選び、ベクトルの内積の値から確率を考える問題。", "question": "\n正方形 \\(ABCD\\) の頂点から異なる2点を一様に、順序を区別して選び、選んだ点を \\(P,Q\\) とする。\n\\(\\overrightarrow{AP}\\) と \\(\\overrightarrow{AQ}\\) の内積を \\(X\\) とする。\n\n(1) \\(X=0\\) となる確率を求めよ。\n\n(2) \\(X<0\\) となる確率を求めよ。\n\n(3) \\(X\\) の期待値を求めよ。\n", "hint": "\\(A=(0,0),B=(1,0),C=(1,1),D=(0,1)\\) とおき、12通りの順序つきの選び方を表にして内積を数える。", "solution": "\n### 準備\n\n正方形を\n\\[\nA=(0,0),\\quad B=(1,0),\\quad C=(1,1),\\quad D=(0,1)\n\\]\nとおく。\n\n異なる2点を順序つきで選ぶので、全体は\n\\[\n4\\cdot3=12\n\\]\n通り。\n\nここで \\(A\\) を選んだ場合、\n\\[\n\\overrightarrow{AA}=\\boldsymbol0\n\\]\nなので、内積 \\(X\\) は必ず \\(0\\) になります。\n\n### (1) \\(X=0\\)\n\n\\(P\\) または \\(Q\\) が \\(A\\) である選び方は\n\\[\n6\n\\]\n通り。\n\nさらに \\(P,Q\\) が \\(B,C,D\\) の中から選ばれる場合、\n\\[\n\\overrightarrow{AB}\\cdot\\overrightarrow{AD}=0\n\\]\nなので \\((B,D),(D,B)\\) の2通りが追加される。\n\nしたがって\n\\[\nP(X=0)=\\frac{6+2}{12}\n=\\boxed{\\frac23}.\n\\]\n\n### (2) \\(X<0\\)\n\n\\(A\\) を含む場合は \\(X=0\\)。\n\n\\(B,C,D\\) に対応するベクトルは\n\\[\n(1,0),\\ (1,1),\\ (0,1).\n\\]\n\nこれらのどの2つの内積も \\(0\\) 以上なので、負になる組はありません。\n\n\\[\n\\boxed{P(X<0)=0}.\n\\]\n\n### (3) 期待値\n\n\\(A\\) を含む6通りは \\(X=0\\)。\n\n残り6通りについて\n\\[\n\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=1,\\quad\n\\overrightarrow{AC}\\cdot\\overrightarrow{AB}=1,\n\\]\n\\[\n\\overrightarrow{BC}\\text{ に相当するものではなく、}\n\\overrightarrow{AB}\\cdot\\overrightarrow{AD}=0,\n\\]\nなどと数えると、内積の合計は\n\\[\n1+1+0+0+1+1=4.\n\\]\n\nしたがって\n\\[\nE(X)=\\frac4{12}\n=\\boxed{\\frac13}.\n\\]\n"}, {"id": 4, "title": "複素数と軌跡", "units": ["複素数平面", "図形と方程式"], "difficulty": "北大標準", "time": 23, "summary": "2つの複素数からの距離が等しい条件と円との交点を考える問題。", "question": "\n複素数 \\(z\\) が\n\\[\n|z-1|=|z-i|\n\\]\nを満たすとする。\n\n(1) \\(z=x+yi\\) とおいて、\\(x,y\\) の満たす方程式を求めよ。\n\n(2) さらに \\(|z|=\\sqrt2\\) を満たす点 \\(z\\) の個数を求めよ。\n\n(3) (2)の点をすべて求めよ。\n", "hint": "(1) 両辺を2乗して絶対値を外す。 (2) (1)の直線と円 \\(x^2+y^2=2\\) の共有点を考える。", "solution": "\n### (1) 軌跡\n\n\\(z=x+yi\\) とすると\n\\[\n|z-1|^2=(x-1)^2+y^2,\n\\]\n\\[\n|z-i|^2=x^2+(y-1)^2.\n\\]\n\n等しいので\n\\[\n(x-1)^2+y^2=x^2+(y-1)^2.\n\\]\n\n展開すると\n\\[\nx^2-2x+1+y^2=x^2+y^2-2y+1,\n\\]\nよって\n\\[\n-2x=-2y.\n\\]\n\nしたがって\n\\[\n\\boxed{x=y}.\n\\]\n\n### (2) 共有点の個数\n\n\\[\n|z|=\\sqrt2\n\\]\nより\n\\[\nx^2+y^2=2.\n\\]\n\nさらに \\(x=y\\) だから\n\\[\n2x^2=2.\n\\]\n\nよって\n\\[\nx=\\pm1.\n\\]\n\nしたがって共有点は2個。\n\n\\[\n\\boxed{2\\text{個}}\n\\]\n\n### (3) 点\n\n\\(x=y=1\\) のとき\n\\[\nz=1+i.\n\\]\n\n\\(x=y=-1\\) のとき\n\\[\nz=-1-i.\n\\]\n\nよって\n\\[\n\\boxed{z=1+i,\\ -1-i}.\n\\]\n"}, {"id": 5, "title": "確率と整数", "units": ["確率", "整数"], "difficulty": "北大やや難", "time": 25, "summary": "数字カードから2桁整数を作り、倍数条件を組み合わせて確率を求める問題。", "question": "\n\\(1,2,3,4,5,6\\) の6枚のカードから異なる2枚を順に取り出し、2桁の整数 \\(N\\) を作る。\n\n(1) \\(N\\) が3の倍数となる確率を求めよ。\n\n(2) \\(N\\) が6の倍数となる確率を求めよ。\n\n(3) \\(N\\) が6の倍数であるとき、\\(N\\) が4の倍数でもある条件付き確率を求めよ。\n", "hint": "(1) 3の倍数判定法は各桁の和。 (2) 6の倍数は2の倍数かつ3の倍数。 (3) まず6の倍数になっている数をすべて列挙する。", "solution": "\n### 全体\n\n異なる2枚を順に取り出すので、\n\\[\n6\\cdot5=30\n\\]\n通り。\n\n### (1) 3の倍数\n\n2桁の整数が3の倍数である条件は、各桁の和が3の倍数。\n\n該当するものを列挙すると\n\\[\n12,15,21,24,36,42,45,51,54,63\n\\]\nの10通り。\n\nしたがって\n\\[\n\\boxed{\\frac{10}{30}=\\frac13}.\n\\]\n\n### (2) 6の倍数\n\n6の倍数は「2の倍数かつ3の倍数」。\n\n該当するものは\n\\[\n12,24,36,42,54\n\\]\nの5通り。\n\nよって\n\\[\n\\boxed{\\frac5{30}=\\frac16}.\n\\]\n\n### (3) 条件付き確率\n\n上の5個のうち4の倍数でもあるものは\n\\[\n12,\\ 24,\\ 36\n\\]\nの3個。\n\nしたがって\n\\[\n\\boxed{\\frac35}.\n\\]\n"}, {"id": 6, "title": "微分と三角関数", "units": ["微分", "三角関数"], "difficulty": "北大標準", "time": 20, "summary": "三角関数を含む関数を微分し、増減と方程式の解の個数を調べる問題。", "question": "\n\\(0\\le x\\le\\pi\\) とし、\n\\[\nf(x)=\\sin x+x\\cos x\n\\]\nとする。\n\n(1) \\(f'(x)\\) を求めよ。\n\n(2) \\(f(x)\\) の増減を調べ、最大値・最小値を求めよ。ただし、最大値を与える \\(x\\) は方程式で表してよい。\n\n(3) 方程式\n\\[\n\\sin x+x\\cos x=0\n\\]\nの解の個数を求めよ。\n", "hint": "(2) \\(f'(x)=0\\) は \\(\\tan x=2/x\\) と変形できる。 (3) \\(f\\) の増減と端点値を利用する。", "solution": "\n### (1) 微分\n\n積の微分を使うと\n\\[\nf'(x)=\\cos x+\\cos x-x\\sin x.\n\\]\n\nしたがって\n\\[\n\\boxed{f'(x)=2\\cos x-x\\sin x}.\n\\]\n\n### (2) 増減\n\n\\(0<x<\\pi\\) で \\(f'(x)=0\\) とすると\n\\[\n2\\cos x=x\\sin x.\n\\]\n\n\\(\\cos x=0\\) はこの式を満たさないので、\n\\[\n\\tan x=\\frac2x.\n\\]\n\n\\(0<x<\\frac{\\pi}{2}\\) では、\\(\\tan x\\) は単調増加し、\\(2/x\\) は単調減少する。\nしたがってこの区間には方程式の解がただ1つ存在する。\n\nその解を \\(\\alpha\\) とする。\n数値的には\n\\[\n\\alpha\\approx1.07687.\n\\]\n\nまた、\n\\[\nf'(0)=2>0,\\qquad\nf'\\left(\\frac\\pi2\\right)=-\\frac\\pi2<0.\n\\]\nしたがって \\(f\\) は \\(0\\) から \\(\\alpha\\) まで増加し、その後 \\(\\pi\\) まで減少する。\n\n端点値は\n\\[\nf(0)=0,\\qquad\nf(\\pi)=-\\pi.\n\\]\n\nよって最小値は\n\\[\n\\boxed{-\\pi}\n\\]\nで \\(x=\\pi\\) のとき。\n\n最大値は\n\\[\n\\boxed{\\sin\\alpha+\\alpha\\cos\\alpha}\n\\]\nで、\\(\\alpha\\) は\n\\[\n\\boxed{\\tan\\alpha=\\frac2\\alpha,\\quad0<\\alpha<\\frac\\pi2}\n\\]\nを満たす唯一の数。\n\n### (3) 方程式の解\n\n方程式は\n\\[\nf(x)=0.\n\\]\n\n\\(f(0)=0\\) なので \\(x=0\\) は解。\n\n一方、\\(f\\) は \\(\\alpha\\) まで増加したあと減少し、\n\\[\nf\\left(\\frac\\pi2\\right)=1>0,\\qquad\nf(\\pi)=-\\pi<0.\n\\]\n\nしたがって \\(\\alpha\\) より後、\\(\\pi\\) より前にもう1つ解がある。\n\nよって解は\n\\[\n\\boxed{2\\text{個}}\n\\]\nである。\n"}, {"id": 7, "title": "漸化式と極限", "units": ["数列", "極限"], "difficulty": "北大標準", "time": 22, "summary": "平方根を含む漸化式について、範囲・単調性・極限を順に示す問題。", "question": "\n\\[\na_1=1,\\qquad a_{n+1}=\\sqrt{2+a_n}\n\\]\nとする。\n\n(1) \\(0<a_n<2\\) を示せ。\n\n(2) \\(a_n\\) が単調増加であることを示せ。\n\n(3)\n\\[\n\\lim_{n\\to\\infty}a_n\n\\]\nを求めよ。\n", "hint": "(1) 帰納法。 (2) \\(a_{n+1}>a_n\\) の両辺が非負であることを確認してから2乗する。", "solution": "\n### (1) \\(0<a_n<2\\)\n\nまず\n\\[\na_1=1\n\\]\nなので成立。\n\n\\(0<a_n<2\\) と仮定すると、\n\\[\n2<a_n+2<4.\n\\]\n\n平方根をとって\n\\[\n\\sqrt2<a_{n+1}<2.\n\\]\n\n特に\n\\[\n0<a_{n+1}<2.\n\\]\n\nしたがって数学的帰納法により\n\\[\n\\boxed{0<a_n<2}\n\\]\nがすべての \\(n\\) で成立する。\n\n### (2) 単調増加\n\n\\(a_{n+1}>a_n\\) を示す。\n\n両辺は正なので2乗してよく、\n\\[\n2+a_n>a_n^2\n\\]\nを示せばよい。\n\n移項すると\n\\[\na_n^2-a_n-2<0,\n\\]\nすなわち\n\\[\n(a_n-2)(a_n+1)<0.\n\\]\n\n(1)より \\(0<a_n<2\\) なので、これは確かに成立。\n\nよって\n\\[\n\\boxed{a_{n+1}>a_n}.\n\\]\n\n### (3) 極限\n\n(1),(2)より、\\(a_n\\) は上に有界な単調増加数列なので収束する。\n\nその極限を \\(L\\) とすると\n\\[\nL=\\sqrt{2+L}.\n\\]\n\n両辺を2乗して\n\\[\nL^2-L-2=0,\n\\]\n\\[\n(L-2)(L+1)=0.\n\\]\n\n(1)より \\(0<L<2\\) なので\n\\[\n\\boxed{L=2}.\n\\]\n"}, {"id": 8, "title": "ベクトルと面積", "units": ["ベクトル", "図形"], "difficulty": "北大標準", "time": 24, "summary": "線分上を動く点を媒介変数で表し、三角形の面積の最小値を求める問題。", "question": "\n\\(A=(1,0),\\ B=(0,1),\\ C=(3,2)\\) とする。\n点 \\(P\\) は線分 \\(AB\\) 上を動く。\n\n\\[\nP=(1-t,t)\\qquad(0\\le t\\le1)\n\\]\nと表す。\n\n(1) \\(\\overrightarrow{BP}\\) と \\(\\overrightarrow{BC}\\) を求めよ。\n\n(2) 三角形 \\(PBC\\) の面積を \\(t\\) の式で表せ。\n\n(3) 三角形 \\(PBC\\) の面積が最小となる \\(t\\) と、その最小値を求めよ。\n", "hint": "(2) 面積は \\(\\frac12|\\det(\\overrightarrow{BP},\\overrightarrow{BC})|\\)。 (3) 絶対値を含む一次式の最小値を考える。", "solution": "\n### (1) ベクトル\n\n\\[\nP=(1-t,t),\\quad B=(0,1),\\quad C=(3,2)\n\\]\nなので\n\\[\n\\overrightarrow{BP}\n=P-B=(1-t,t-1),\n\\]\n\\[\n\\overrightarrow{BC}\n=C-B=(3,1).\n\\]\n\nしたがって\n\\[\n\\boxed{\\overrightarrow{BP}=(1-t,t-1),\\quad\n\\overrightarrow{BC}=(3,1)}.\n\\]\n\n### (2) 面積\n\n2次元ベクトルの行列式を使うと、\n\\[\n[ PBC ]\n=\\frac12\n\\left|\n\\begin{vmatrix}\n1-t&t-1\\\\\n3&1\n\\end{vmatrix}\n\\right|.\n\\]\n\n計算すると\n\\[\n(1-t)\\cdot1-(t-1)\\cdot3\n=1-t-3t+3\n=4-4t.\n\\]\n\n\\(0\\le t\\le1\\) なので \\(4-4t\\ge0\\)。\n\nしたがって\n\\[\n\\boxed{[PBC]=2(1-t)}.\n\\]\n\n### (3) 最小値\n\n\\(0\\le t\\le1\\) なので\n\\[\n2(1-t)\n\\]\nは \\(t\\) が大きいほど小さくなる。\n\nしたがって \\(t=1\\) のとき最小。\n\nこのとき \\(P=A\\) なので、面積は\n\\[\n2(1-1)=0.\n\\]\n\nよって\n\\[\n\\boxed{t=1,\\quad\\text{最小値 }0}.\n\\]\n\n※この問題は \\(P\\) が \\(A\\) まで動けるため、最小値が0になる。今後の問題追加では、こうした「端点で自明になる」問題をできるだけ避ける。\n"}, {"id": 9, "title": "積分と指数関数", "units": ["積分", "指数・対数"], "difficulty": "北大やや難", "time": 23, "summary": "指数関数を含む積分を部分積分で処理し、極限と不等式まで考える問題。", "question": "\n\\(a>0\\) とし、\n\\[\nI(a)=\\int_0^1 xe^{ax}\\,dx\n\\]\nとする。\n\n(1) \\(I(a)\\) を求めよ。\n\n(2)\n\\[\n\\lim_{a\\to0}I(a)\n\\]\nを求めよ。\n\n(3) \\(a>0\\) のとき\n\\[\nI(a)>\\frac12\n\\]\nを示せ。\n", "hint": "(1) \\(x\\) を微分する側、\\(e^{ax}\\) を積分する側にして部分積分。 (3) \\(a>0,\\ 0<x\\le1\\) で \\(e^{ax}>1\\) を利用する。", "solution": "\n### (1) \\(I(a)\\)\n\n部分積分を使う。\n\n\\[\nu=x,\\qquad dv=e^{ax}\\,dx\n\\]\nとおくと\n\\[\ndu=dx,\\qquad\nv=\\frac1a e^{ax}.\n\\]\n\nしたがって\n\\[\nI(a)\n=\\left[\\frac{x e^{ax}}a\\right]_0^1\n-\\frac1a\\int_0^1e^{ax}\\,dx.\n\\]\n\nさらに\n\\[\n\\int_0^1e^{ax}\\,dx\n=\\left[\\frac1ae^{ax}\\right]_0^1\n=\\frac{e^a-1}{a}.\n\\]\n\nよって\n\\[\nI(a)\n=\\frac{e^a}{a}-\\frac{e^a-1}{a^2}.\n\\]\n\n整理して\n\\[\n\\boxed{\nI(a)=\\frac{e^a(a-1)+1}{a^2}\n}.\n\\]\n\n### (2) \\(a\\to0\\)\n\n積分の中身に注目すると\n\\[\nxe^{ax}\\to x\n\\]\nなので、\n\\[\n\\lim_{a\\to0}I(a)\n=\\int_0^1x\\,dx\n=\\left[\\frac{x^2}{2}\\right]_0^1\n=\\boxed{\\frac12}.\n\\]\n\n### (3) \\(I(a)>\\frac12\\)\n\n\\(a>0\\)、\\(0<x\\le1\\) なら\n\\[\nax>0\n\\]\nだから\n\\[\ne^{ax}>1.\n\\]\n\nさらに \\(x>0\\) なので\n\\[\nxe^{ax}>x.\n\\]\n\n両辺を \\(0\\le x\\le1\\) で積分すると\n\\[\nI(a)>\\int_0^1x\\,dx\n=\\frac12.\n\\]\n\nしたがって\n\\[\n\\boxed{I(a)>\\frac12}.\n\\]\n"}, {"id": 10, "title": "確率と数列", "units": ["確率", "数列"], "difficulty": "北大やや難", "time": 25, "summary": "同じ色の玉を追加する操作を繰り返し、期待値と確率の不変性を考える問題。", "question": "\n箱に赤玉1個、白玉2個が入っている。\n1個取り出して色を確認し、元に戻した後、確認した色と同じ色の玉を1個追加する操作を繰り返す。\n\n\\(n\\) 回目の操作で赤玉を引く確率を \\(p_n\\) とする。\n\n(1) \\(p_1\\) を求めよ。\n\n(2) \\(p_{n+1}\\) を \\(p_n\\) を用いて求めよ。\n\n(3) \\(\\displaystyle\\lim_{n\\to\\infty}p_n\\) を求めよ。\n", "hint": "(2) \\(n\\) 回の操作後の赤玉数を \\(R_n\\) とおき、その期待値を考える。赤を引く確率は「赤玉数÷全体の玉数」。", "solution": "\n### (1) \\(p_1\\)\n\n最初は赤1個、白2個なので、赤を引く確率は\n\\[\np_1=\\frac13.\n\\]\n\nしたがって\n\\[\n\\boxed{p_1=\\frac13}.\n\\]\n\n### (2) \\(p_{n+1}\\)\n\n\\(n\\) 回の操作が終わった直後の赤玉数を \\(R_n\\) とする。\n\n最初は赤玉が1個なので\n\\[\nR_0=1.\n\\]\n\n\\(n\\) 回後には全部で\n\\[\n3+n\n\\]\n個の玉がある。\n\nしたがって、\\(n+1\\) 回目に赤を引く確率は\n\\[\np_{n+1}\n=E\\left(\\frac{R_n}{n+3}\\right)\n=\\frac{E(R_n)}{n+3}.\n\\]\n\n一方、\\(R_n\\) の期待値を \\(r_n=E(R_n)\\) とすると、\n次の操作で赤玉が1個増える確率は\n\\[\n\\frac{R_n}{n+3}.\n\\]\n\nしたがって\n\\[\nr_{n+1}\n=r_n+\\frac{r_n}{n+3}\n=r_n\\frac{n+4}{n+3}.\n\\]\n\n\\(r_0=1\\) なので、\n\\[\nr_n\n=\\frac{n+3}{3}.\n\\]\n\nよって\n\\[\np_{n+1}\n=\\frac{r_n}{n+3}\n=\\frac13.\n\\]\n\nしたがって\n\\[\n\\boxed{p_{n+1}=\\frac13}.\n\\]\n\nつまり実は\n\\[\n\\boxed{p_n=\\frac13}\n\\]\nがすべての \\(n\\) で成立する。\n\n### (3) 極限\n\n(2)より \\(p_n\\) は常に \\(\\frac13\\)。\n\nしたがって\n\\[\n\\boxed{\\lim_{n\\to\\infty}p_n=\\frac13}.\n\\]\n"}];
+let current = null;
+let hintVisible = false;
+let reviewIds = loadReviewIds();
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function loadReviewIds(){
+  try { return JSON.parse(localStorage.getItem('hokudaiMathReview') || '[]'); }
+  catch(e){ return []; }
+}
+function saveReviewIds(){
+  localStorage.setItem('hokudaiMathReview', JSON.stringify([...new Set(reviewIds)]));
+}
+function addReview(id=current?.id){
+  if(!id) return;
+  if(!reviewIds.includes(id)) reviewIds.push(id);
+  saveReviewIds();
+  updateHomeStatus();
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(showToast.timer);
+  showToast.timer=setTimeout(()=>t.classList.remove('show'),1800);
+}
+function setNav(which){
+  document.getElementById('navHome').classList.toggle('active',which==='home');
+  document.getElementById('navReview').classList.toggle('active',which==='review');
+}
+function showScreen(id, nav='home'){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
+  setNav(nav);
+  window.scrollTo({top:0,behavior:'instant'});
 }
-
-function startRandom() {
-  current = problems[Math.floor(Math.random() * problems.length)];
-  document.getElementById('title').textContent = 'No.' + current.id + ' ' + current.title;
-  document.getElementById('meta').innerHTML =
-    current.units.map(x => `<span class="tag">${x}</span>`).join('') +
-    `<span class="tag">${current.difficulty}</span>` +
-    `<span class="tag">想定 ${current.time}分</span>`;
-  document.getElementById('q').textContent = current.question;
-  document.getElementById('a').textContent = current.answer;
-  document.getElementById('answer').style.display = 'none';
-  showScreen('problem');
+function goHome(){
+  updateHomeStatus();
+  showScreen('home','home');
 }
-
-function showAnswer() {
-  document.getElementById('answer').style.display = 'block';
+function updateHomeStatus(){
+  const el=document.getElementById('homeStatus');
+  const n=reviewIds.length;
+  el.textContent=n ? `復習中の問題：${n}題` : '復習中の問題はありません';
 }
-
-function goHome() {
-  showScreen('home');
+function randomProblem(){
+  if(problems.length===1) return problems[0];
+  let p;
+  do { p=problems[Math.floor(Math.random()*problems.length)]; }
+  while(current && p.id===current.id);
+  return p;
 }
+function startRandom(){
+  current=randomProblem();
+  renderProblem();
+  showScreen('problem','home');
+}
+function startProblemById(id){
+  current=problems.find(p=>p.id===id) || null;
+  if(!current) return;
+  renderProblem();
+  showScreen('problem','home');
+}
+function renderProblem(){
+  hintVisible=false;
+  document.getElementById('hintBox').classList.remove('show');
+  document.getElementById('hintBox').innerHTML='';
+  document.getElementById('problemTitle').textContent=`No.${current.id} ${current.title}`;
+  document.getElementById('problemMeta').innerHTML=
+    current.units.map(x=>`<span class="tag">${x}</span>`).join('')+
+    `<span class="tag">${current.difficulty}</span><span class="tag">想定 ${current.time}分</span>`;
+  document.getElementById('problemQuestion').innerHTML=current.question;
+  if(window.MathJax) MathJax.typesetPromise([document.getElementById('problemQuestion')]).catch(()=>{});
+}
+function toggleHint(){
+  const box=document.getElementById('hintBox');
+  hintVisible=!hintVisible;
+  if(hintVisible){
+    box.innerHTML=`<strong>ヒント</strong><br>${current.hint}`;
+    box.classList.add('show');
+    if(window.MathJax) MathJax.typesetPromise([box]).catch(()=>{});
+  }else box.classList.remove('show');
+}
+function showAnswer(){
+  document.getElementById('answerQuestion').innerHTML=current.question;
+  document.getElementById('solution').innerHTML=current.solution;
+  document.getElementById('resultStatus').innerHTML='';
+  showScreen('answer','home');
+  if(window.MathJax) MathJax.typesetPromise([
+    document.getElementById('answerQuestion'),
+    document.getElementById('solution')
+  ]).catch(()=>{});
+}
+function backToProblem(){ showScreen('problem','home'); }
+function markCorrect(){
+  reviewIds=reviewIds.filter(id=>id!==current.id);
+  saveReviewIds();
+  document.getElementById('resultStatus').innerHTML='<div class="status">正解として記録しました。復習リストからは外しました。</div>';
+}
+function markWrong(){
+  addReview();
+  document.getElementById('resultStatus').innerHTML='<div class="status">不正解として記録しました。この問題を復習に追加しました。</div>';
+  showToast('復習に追加しました');
+}
+function renderReview(){
+  const list=document.getElementById('reviewList');
+  if(reviewIds.length===0){
+    list.innerHTML='<div class="empty">まだ復習に入った問題はありません。<br>解答画面で「不正解」または「復習」を押すと、ここに表示されます。</div>';
+    return;
+  }
+  const items=reviewIds.map(id=>problems.find(p=>p.id===id)).filter(Boolean);
+  list.innerHTML=items.map(p=>`
+    <button class="review-item" onclick="startProblemById(${p.id})">
+      <div class="review-no">No.${p.id}</div>
+      <div class="review-title">${p.title}</div>
+      <div class="review-meta">${p.units.join(' ・ ')}</div>
+      <div class="review-summary">${p.summary}</div>
+    </button>
+  `).join('');
+}
+function showReview(){
+  renderReview();
+  showScreen('review','review');
+}
+updateHomeStatus();
 </script>
 </body>
 </html>
